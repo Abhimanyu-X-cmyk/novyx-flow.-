@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b18">
   <title>NOVYX Flow — Payments, Connected</title>
 
   <style>
@@ -24,82 +25,182 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 15px;
       padding: 22px 7%;
       border-bottom: 1px solid #202740;
     }
 
     .logo {
-      font-size: 23px;
+      font-size: 22px;
       font-weight: bold;
       letter-spacing: 1px;
     }
 
-    .logo span {
+    .logo span,
+    .hero h1 span {
       color: #00e5ff;
     }
 
+    button {
+      font: inherit;
+    }
+
     .bell {
+      position: relative;
       background: #151d32;
       border: 1px solid #303b57;
       color: white;
       border-radius: 12px;
-      padding: 11px 15px;
+      padding: 11px 14px;
       cursor: pointer;
-      font-size: 18px;
+    }
+
+    .bell:hover {
+      border-color: #00e5ff;
+    }
+
+    .count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #00e5ff;
+      color: #07101b;
+      font-size: 11px;
+      font-weight: bold;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-left: 5px;
     }
 
     main {
-      max-width: 1000px;
+      max-width: 1050px;
       margin: auto;
       padding: 65px 7%;
     }
 
     .tag {
       color: #00e5ff;
-      font-size: 13px;
+      font-size: 12px;
       letter-spacing: 2px;
       margin-bottom: 20px;
     }
 
-    h1 {
+    .hero h1 {
       font-size: clamp(38px, 7vw, 65px);
-      line-height: 1.08;
+      line-height: 1.1;
       margin-bottom: 22px;
-    }
-
-    h1 span {
-      color: #00e5ff;
     }
 
     .intro {
       color: #aab4cc;
-      line-height: 1.7;
-      max-width: 560px;
-      margin-bottom: 32px;
+      line-height: 1.8;
+      max-width: 570px;
+      margin-bottom: 28px;
     }
 
-    .button {
-      display: inline-block;
-      padding: 14px 22px;
-      border-radius: 10px;
+    .primary {
       background: #00e5ff;
       color: #07101b;
-      font-weight: bold;
       border: none;
+      border-radius: 10px;
+      padding: 14px 21px;
+      font-weight: bold;
       cursor: pointer;
     }
 
+    .primary:hover {
+      background: #8af5ff;
+    }
+
     .notice {
-      margin-top: 18px;
+      margin-top: 16px;
       color: #9ba8c5;
       font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .notification-panel {
+      display: none;
+      margin-top: 30px;
+      background: #11172a;
+      border: 1px solid #303b57;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .notification-panel.open {
+      display: block;
+    }
+
+    .panel-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 18px;
+      border-bottom: 1px solid #29334d;
+    }
+
+    .panel-heading h2 {
+      font-size: 18px;
+    }
+
+    .text-button {
+      color: #00e5ff;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    #notificationList {
+      padding: 0 18px;
+    }
+
+    .notification {
+      padding: 18px 0;
+      border-bottom: 1px solid #29334d;
+    }
+
+    .notification:last-child {
+      border-bottom: none;
+    }
+
+    .notification h3 {
+      font-size: 15px;
+      margin-bottom: 7px;
+    }
+
+    .notification p {
+      color: #aab4cc;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .type {
+      display: inline-block;
+      color: #00e5ff;
+      background: #102b3b;
+      border-radius: 20px;
+      padding: 5px 9px;
+      margin-top: 9px;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .message {
+      padding: 20px 0;
+      color: #aab4cc;
+      font-size: 14px;
+      line-height: 1.6;
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 18px;
-      margin-top: 50px;
+      margin-top: 42px;
     }
 
     .card {
@@ -107,6 +208,11 @@
       border: 1px solid #242e49;
       border-radius: 18px;
       padding: 24px;
+    }
+
+    .card .symbol {
+      font-size: 25px;
+      margin-bottom: 18px;
     }
 
     .card h2 {
@@ -117,7 +223,7 @@
     .card p {
       color: #aab4cc;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .status {
@@ -127,7 +233,7 @@
       border-radius: 20px;
       background: #20362f;
       color: #8cf2bd;
-      font-size: 12px;
+      font-size: 11px;
     }
 
     footer {
@@ -136,16 +242,26 @@
       padding: 28px 15px;
       border-top: 1px solid #202740;
       font-size: 12px;
+      line-height: 1.8;
     }
 
-    #notification {
-      display: none;
-      background: #17223a;
-      border: 1px solid #00e5ff;
-      border-radius: 12px;
-      padding: 16px;
-      margin-top: 20px;
-      line-height: 1.6;
+    @media (max-width: 480px) {
+      header {
+        padding: 18px 5%;
+      }
+
+      .logo {
+        font-size: 18px;
+      }
+
+      .bell {
+        padding: 10px;
+        font-size: 12px;
+      }
+
+      main {
+        padding: 48px 5%;
+      }
     }
   </style>
 </head>
@@ -153,72 +269,208 @@
 <body>
   <header>
     <div class="logo">NOVYX <span>FLOW</span></div>
-    <button class="bell" onclick="showNotifications()"
-      aria-label="Show notifications">
+
+    <button
+      class="bell"
+      id="notificationButton"
+      type="button"
+      aria-expanded="false"
+      aria-controls="notificationPanel"
+    >
       ♧ Notifications
+      <span class="count" id="notificationCount">…</span>
     </button>
   </header>
 
   <main>
-    <p class="tag">PAYMENTS, CONNECTED.</p>
+    <section class="hero">
+      <p class="tag">PAYMENTS, CONNECTED.</p>
 
-    <h1>Money movement.<br><span>Simplified.</span></h1>
+      <h1>
+        Money movement.<br>
+        <span>Simplified.</span>
+      </h1>
 
-    <p class="intro">
-      A new way to bring payment experiences, transaction updates
-      and security notifications together in one place.
-    </p>
+      <p class="intro">
+        A modern payment experience bringing transaction updates,
+        notification tools and security information together in one place.
+      </p>
 
-    <button class="button" onclick="showDemo()">
-      Explore Demo
-    </button>
+      <button class="primary" id="exploreButton" type="button">
+        Explore Demo
+      </button>
 
-    <p class="notice">
-      Development preview · No real payments are processed.
-    </p>
+      <p class="notice">
+        Development preview only. No real payments are processed.
+      </p>
+    </section>
 
-    <div id="notification">
-      <strong>Notifications</strong><br>
-      This is a sample notification centre.<br>
-      Payment demo: no real transaction occurred.<br>
-      Security: demo mode is active.
-    </div>
+    <section
+      class="notification-panel"
+      id="notificationPanel"
+      aria-label="Notifications"
+    >
+      <div class="panel-heading">
+        <h2>Notification Centre</h2>
+        <button class="text-button" id="refreshButton" type="button">
+          Refresh
+        </button>
+      </div>
+
+      <div id="notificationList" aria-live="polite">
+        <p class="message">Loading notifications…</p>
+      </div>
+    </section>
 
     <section class="grid">
-      <div class="card">
-        <h2>↗ Payment Updates</h2>
-        <p>View sample transaction statuses in a simple interface.</p>
+      <article class="card">
+        <div class="symbol">↗</div>
+        <h2>Payment Updates</h2>
+        <p>
+          Explore sample transaction notifications.
+          No real transactions are created.
+        </p>
         <span class="status">Demo mode</span>
-      </div>
+      </article>
 
-      <div class="card">
-        <h2>♧ Security Alerts</h2>
-        <p>A dedicated place for future account and security alerts.</p>
+      <article class="card">
+        <div class="symbol">⌑</div>
+        <h2>Security Alerts</h2>
+        <p>
+          A dedicated space for future account and security notifications.
+        </p>
         <span class="status">Preview only</span>
-      </div>
+      </article>
 
-      <div class="card">
-        <h2>✉ Notifications</h2>
-        <p>Plan email, SMS and in-app notifications in one system.</p>
+      <article class="card">
+        <div class="symbol">✉</div>
+        <h2>Email & SMS</h2>
+        <p>
+          Email and SMS delivery can be connected after secure
+          provider configuration.
+        </p>
         <span class="status">Not connected</span>
-      </div>
+      </article>
     </section>
   </main>
 
   <footer>
-    © 2026 NOVYX Flow · Development Preview
+    © 2026 NOVYX Flow<br>
+    Development Preview · Real payments disabled
   </footer>
 
   <script>
-    function showNotifications() {
-      const panel = document.getElementById("notification");
-      panel.style.display =
-        panel.style.display === "block" ? "none" : "block";
+    const notificationButton =
+      document.getElementById("notificationButton");
+
+    const notificationPanel =
+      document.getElementById("notificationPanel");
+
+    const notificationList =
+      document.getElementById("notificationList");
+
+    const notificationCount =
+      document.getElementById("notificationCount");
+
+    const refreshButton =
+      document.getElementById("refreshButton");
+
+    let notifications = [];
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, function (character) {
+        const entities = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        };
+
+        return entities[character];
+      });
     }
 
-    function showDemo() {
-      alert("Welcome to NOVYX Flow Demo! No real payment was made.");
+    function renderNotifications() {
+      notificationCount.textContent = notifications.length;
+
+      if (notifications.length === 0) {
+        notificationList.innerHTML =
+          '<p class="message">No notifications available.</p>';
+        return;
+      }
+
+      notificationList.innerHTML = notifications.map(function (item) {
+        return `
+          <article class="notification">
+            <h3>${escapeHTML(item.title)}</h3>
+            <p>${escapeHTML(item.message)}</p>
+            <span class="type">${escapeHTML(item.type)}</span>
+          </article>
+        `;
+      }).join("");
     }
+
+    async function loadNotifications() {
+      notificationList.innerHTML =
+        '<p class="message">Loading notifications…</p>';
+
+      try {
+        const response = await fetch("/api/notifications");
+
+        if (!response.ok) {
+          throw new Error("The notification API returned an error.");
+        }
+
+        const data = await response.json();
+
+        if (data.ok !== true || !Array.isArray(data.notifications)) {
+          throw new Error("The notification data is invalid.");
+        }
+
+        notifications = data.notifications;
+        renderNotifications();
+      } catch (error) {
+        notificationCount.textContent = "!";
+
+        notificationList.innerHTML =
+          '<p class="message">Could not load notifications. ' +
+          'Please check your connection and try Refresh.</p>';
+
+        console.error("Notification loading failed:", error);
+      }
+    }
+
+    notificationButton.addEventListener("click", function () {
+      const isOpen = notificationPanel.classList.toggle("open");
+
+      notificationButton.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
+
+      if (isOpen) {
+        loadNotifications();
+      }
+    });
+
+    refreshButton.addEventListener("click", loadNotifications);
+
+    document.getElementById("exploreButton").addEventListener(
+      "click",
+      function () {
+        notificationPanel.classList.add("open");
+
+        notificationButton.setAttribute("aria-expanded", "true");
+
+        loadNotifications();
+
+        notificationPanel.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    );
   </script>
 </body>
 </html>
