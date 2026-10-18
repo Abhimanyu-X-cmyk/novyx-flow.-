@@ -25,7 +25,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       padding: 22px 7%;
       border-bottom: 1px solid #202740;
     }
@@ -45,13 +45,17 @@
       font: inherit;
     }
 
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
     .bell {
-      position: relative;
       background: #151d32;
       border: 1px solid #303b57;
       color: white;
       border-radius: 12px;
-      padding: 11px 14px;
+      padding: 11px 12px;
       cursor: pointer;
     }
 
@@ -61,8 +65,8 @@
 
     .count {
       display: inline-flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       background: #00e5ff;
       color: #07101b;
       font-size: 11px;
@@ -70,7 +74,7 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      margin-left: 5px;
+      margin-left: 4px;
     }
 
     main {
@@ -100,24 +104,41 @@
     }
 
     .primary {
+      display: inline-block;
       background: #00e5ff;
       color: #07101b;
       border: none;
       border-radius: 10px;
-      padding: 14px 21px;
+      padding: 14px 19px;
       font-weight: bold;
       cursor: pointer;
+      margin: 0 8px 8px 0;
     }
 
     .primary:hover {
       background: #8af5ff;
     }
 
+    .secondary {
+      display: inline-block;
+      background: #151d32;
+      color: #f5f7ff;
+      border: 1px solid #303b57;
+      border-radius: 10px;
+      padding: 13px 17px;
+      cursor: pointer;
+      margin: 0 8px 8px 0;
+    }
+
+    .secondary:hover {
+      border-color: #00e5ff;
+    }
+
     .notice {
-      margin-top: 16px;
+      margin-top: 14px;
       color: #9ba8c5;
       font-size: 12px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .notification-panel {
@@ -210,7 +231,7 @@
       padding: 24px;
     }
 
-    .card .symbol {
+    .symbol {
       font-size: 25px;
       margin-bottom: 18px;
     }
@@ -300,9 +321,15 @@
         Explore Demo
       </button>
 
+      <button class="secondary" id="emailTestButton" type="button">
+        Test Email Connection
+      </button>
+
       <p class="notice">
         Development preview only. No real payments are processed.
       </p>
+
+      <p class="notice" id="emailTestResult" aria-live="polite"></p>
     </section>
 
     <section
@@ -318,7 +345,7 @@
       </div>
 
       <div id="notificationList" aria-live="polite">
-        <p class="message">Loading notifications…</p>
+        <p class="message">Tap Notifications to load sample data.</p>
       </div>
     </section>
 
@@ -346,10 +373,10 @@
         <div class="symbol">✉</div>
         <h2>Email & SMS</h2>
         <p>
-          Email and SMS delivery can be connected after secure
-          provider configuration.
+          Email and SMS delivery requires provider configuration.
+          Email connection testing is available above.
         </p>
-        <span class="status">Not connected</span>
+        <span class="status">Integration in progress</span>
       </article>
     </section>
   </main>
@@ -374,6 +401,12 @@
 
     const refreshButton =
       document.getElementById("refreshButton");
+
+    const emailTestButton =
+      document.getElementById("emailTestButton");
+
+    const emailTestResult =
+      document.getElementById("emailTestResult");
 
     let notifications = [];
 
@@ -419,13 +452,13 @@
         const response = await fetch("/api/notifications");
 
         if (!response.ok) {
-          throw new Error("The notification API returned an error.");
+          throw new Error("Notification API request failed.");
         }
 
         const data = await response.json();
 
         if (data.ok !== true || !Array.isArray(data.notifications)) {
-          throw new Error("The notification data is invalid.");
+          throw new Error("Invalid notification data.");
         }
 
         notifications = data.notifications;
@@ -435,7 +468,7 @@
 
         notificationList.innerHTML =
           '<p class="message">Could not load notifications. ' +
-          'Please check your connection and try Refresh.</p>';
+          'Check your connection and tap Refresh.</p>';
 
         console.error("Notification loading failed:", error);
       }
@@ -471,6 +504,40 @@
         });
       }
     );
+
+    emailTestButton.addEventListener("click", async function () {
+      emailTestButton.disabled = true;
+      emailTestResult.textContent = "Testing email provider connection…";
+
+      try {
+        const response = await fetch("/api/send-email-otp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({})
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.ok === true) {
+          emailTestResult.textContent =
+            "Success: " + data.message;
+        } else {
+          emailTestResult.textContent =
+            "Test failed: " +
+            (data.message || "Unknown error.") +
+            (data.providerStatus
+              ? " Provider status: " + data.providerStatus
+              : "");
+        }
+      } catch (error) {
+        emailTestResult.textContent =
+          "Could not reach the email API. Check your deployment.";
+      } finally {
+        emailTestButton.disabled = false;
+      }
+    });
   </script>
 </body>
 </html>
