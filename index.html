@@ -4,540 +4,288 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080b18">
-  <title>NOVYX Flow — Payments, Connected</title>
-
+  <title>NOVYX Flow</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; }
 
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background: #080b18;
-      color: #f5f7ff;
-      min-height: 100vh;
+      color: #f4f7ff;
     }
 
     header {
+      padding: 20px;
+      border-bottom: 1px solid #252d45;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
       gap: 12px;
-      padding: 22px 7%;
-      border-bottom: 1px solid #202740;
     }
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
+    .logo { font-size: 24px; font-weight: bold; }
+    .logo span { color: #00e5ff; }
 
-    .logo span,
-    .hero h1 span {
-      color: #00e5ff;
-    }
-
-    button {
-      font: inherit;
-    }
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
-
-    .bell {
-      background: #151d32;
-      border: 1px solid #303b57;
-      color: white;
-      border-radius: 12px;
-      padding: 11px 12px;
-      cursor: pointer;
-    }
-
-    .bell:hover {
-      border-color: #00e5ff;
-    }
-
-    .count {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      background: #00e5ff;
-      color: #07101b;
-      font-size: 11px;
-      font-weight: bold;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      margin-left: 4px;
+    .tag {
+      color: #ffc76b;
+      font-size: 12px;
+      border: 1px solid #76572b;
+      padding: 7px 10px;
+      border-radius: 20px;
     }
 
     main {
       max-width: 1050px;
       margin: auto;
-      padding: 65px 7%;
+      padding: 24px 16px;
     }
 
-    .tag {
-      color: #00e5ff;
-      font-size: 12px;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: clamp(38px, 7vw, 65px);
-      line-height: 1.1;
-      margin-bottom: 22px;
-    }
-
-    .intro {
-      color: #aab4cc;
-      line-height: 1.8;
-      max-width: 570px;
-      margin-bottom: 28px;
-    }
-
-    .primary {
-      display: inline-block;
-      background: #00e5ff;
-      color: #07101b;
-      border: none;
-      border-radius: 10px;
-      padding: 14px 19px;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 0 8px 8px 0;
-    }
-
-    .primary:hover {
-      background: #8af5ff;
-    }
-
-    .secondary {
-      display: inline-block;
-      background: #151d32;
-      color: #f5f7ff;
-      border: 1px solid #303b57;
-      border-radius: 10px;
-      padding: 13px 17px;
-      cursor: pointer;
-      margin: 0 8px 8px 0;
-    }
-
-    .secondary:hover {
-      border-color: #00e5ff;
-    }
-
-    .notice {
-      margin-top: 14px;
-      color: #9ba8c5;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .notification-panel {
-      display: none;
-      margin-top: 30px;
-      background: #11172a;
-      border: 1px solid #303b57;
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .notification-panel.open {
-      display: block;
-    }
-
-    .panel-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 18px;
-      border-bottom: 1px solid #29334d;
-    }
-
-    .panel-heading h2 {
-      font-size: 18px;
-    }
-
-    .text-button {
-      color: #00e5ff;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      font-size: 13px;
-    }
-
-    #notificationList {
-      padding: 0 18px;
-    }
-
-    .notification {
-      padding: 18px 0;
-      border-bottom: 1px solid #29334d;
-    }
-
-    .notification:last-child {
-      border-bottom: none;
-    }
-
-    .notification h3 {
-      font-size: 15px;
-      margin-bottom: 7px;
-    }
-
-    .notification p {
-      color: #aab4cc;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .type {
-      display: inline-block;
-      color: #00e5ff;
-      background: #102b3b;
-      border-radius: 20px;
-      padding: 5px 9px;
-      margin-top: 9px;
-      font-size: 11px;
-      text-transform: uppercase;
-    }
-
-    .message {
-      padding: 20px 0;
-      color: #aab4cc;
-      font-size: 14px;
-      line-height: 1.6;
-    }
+    h1 { margin-bottom: 8px; }
+    .muted { color: #a5aec5; line-height: 1.5; }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 18px;
-      margin-top: 42px;
+      margin-top: 24px;
     }
 
     .card {
       background: #11172a;
-      border: 1px solid #242e49;
-      border-radius: 18px;
-      padding: 24px;
+      border: 1px solid #29334f;
+      border-radius: 16px;
+      padding: 20px;
     }
 
-    .symbol {
-      font-size: 25px;
-      margin-bottom: 18px;
-    }
-
-    .card h2 {
-      font-size: 18px;
-      margin-bottom: 12px;
-    }
-
-    .card p {
-      color: #aab4cc;
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      color: #c6cde0;
       font-size: 14px;
-      line-height: 1.7;
     }
 
-    .status {
-      display: inline-block;
-      margin-top: 18px;
-      padding: 7px 10px;
-      border-radius: 20px;
-      background: #20362f;
-      color: #8cf2bd;
-      font-size: 11px;
+    input {
+      width: 100%;
+      padding: 13px;
+      background: #080b18;
+      color: white;
+      border: 1px solid #34415f;
+      border-radius: 9px;
+      font-size: 16px;
     }
+
+    button {
+      width: 100%;
+      margin-top: 16px;
+      padding: 13px;
+      border: 0;
+      border-radius: 9px;
+      background: #00e5ff;
+      color: #06101b;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #202b45;
+      color: white;
+    }
+
+    .amount {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 12px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .notice {
+      padding: 12px;
+      border-radius: 10px;
+      background: #292313;
+      color: #ffdc96;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .transaction {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid #29334f;
+    }
+
+    .transaction:last-child { border-bottom: 0; }
+    .positive { color: #54e6a2; }
+    .small { font-size: 12px; color: #a5aec5; }
 
     footer {
       text-align: center;
-      color: #7e8aa5;
-      padding: 28px 15px;
-      border-top: 1px solid #202740;
+      color: #8993ac;
+      padding: 24px;
       font-size: 12px;
-      line-height: 1.8;
-    }
-
-    @media (max-width: 480px) {
-      header {
-        padding: 18px 5%;
-      }
-
-      .logo {
-        font-size: 18px;
-      }
-
-      .bell {
-        padding: 10px;
-        font-size: 12px;
-      }
-
-      main {
-        padding: 48px 5%;
-      }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <div class="logo">NOVYX <span>FLOW</span></div>
-
-    <button
-      class="bell"
-      id="notificationButton"
-      type="button"
-      aria-expanded="false"
-      aria-controls="notificationPanel"
-    >
-      ♧ Notifications
-      <span class="count" id="notificationCount">…</span>
-    </button>
+    <div class="logo">NOVYX <span>Flow</span></div>
+    <div class="tag">DEMO MODE · NO REAL PAYMENTS</div>
   </header>
 
   <main>
-    <section class="hero">
-      <p class="tag">PAYMENTS, CONNECTED.</p>
+    <h1>Payment Dashboard</h1>
+    <p class="muted">
+      Create an order and explore the transaction dashboard.
+      Real payment processing is not connected yet.
+    </p>
 
-      <h1>
-        Money movement.<br>
-        <span>Simplified.</span>
-      </h1>
+    <div class="grid">
+      <section class="card">
+        <h2>Create an order</h2>
 
-      <p class="intro">
-        A modern payment experience bringing transaction updates,
-        notification tools and security information together in one place.
-      </p>
+        <form id="orderForm">
+          <label for="customer">Customer name</label>
+          <input id="customer" maxlength="80"
+                 placeholder="Enter customer name" required>
 
-      <button class="primary" id="exploreButton" type="button">
-        Explore Demo
-      </button>
+          <label for="description">Product or service</label>
+          <input id="description" maxlength="100"
+                 placeholder="Example: Notebook" required>
 
-      <button class="secondary" id="emailTestButton" type="button">
-        Test Email Connection
-      </button>
+          <label for="price">Amount (₹)</label>
+          <input id="price" type="number" min="1"
+                 max="100000" step="0.01"
+                 placeholder="Enter amount" required>
 
-      <p class="notice">
-        Development preview only. No real payments are processed.
-      </p>
+          <button type="submit">Create Demo Order</button>
+        </form>
 
-      <p class="notice" id="emailTestResult" aria-live="polite"></p>
-    </section>
+        <p class="small">
+          This creates an order record only. It does not collect money.
+        </p>
+      </section>
 
-    <section
-      class="notification-panel"
-      id="notificationPanel"
-      aria-label="Notifications"
-    >
-      <div class="panel-heading">
-        <h2>Notification Centre</h2>
-        <button class="text-button" id="refreshButton" type="button">
-          Refresh
+      <section class="card">
+        <h2>Total collected</h2>
+        <div class="amount" id="total">₹0.00</div>
+        <p class="muted">Verified payments in this demo session</p>
+
+        <div class="notice">
+          Demo orders are not counted as money collected.
+          Payment confirmation will require a real provider integration.
+        </div>
+
+        <h3>Order count</h3>
+        <div class="amount" id="count">0</div>
+        <p class="muted">Orders created in this session</p>
+
+        <button class="secondary" id="clearButton" type="button">
+          Clear Demo Orders
         </button>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:20px">
+      <h2>Recent orders</h2>
+      <div id="orders">
+        <p class="muted">No orders yet. Create a demo order to begin.</p>
       </div>
-
-      <div id="notificationList" aria-live="polite">
-        <p class="message">Tap Notifications to load sample data.</p>
-      </div>
-    </section>
-
-    <section class="grid">
-      <article class="card">
-        <div class="symbol">↗</div>
-        <h2>Payment Updates</h2>
-        <p>
-          Explore sample transaction notifications.
-          No real transactions are created.
-        </p>
-        <span class="status">Demo mode</span>
-      </article>
-
-      <article class="card">
-        <div class="symbol">⌑</div>
-        <h2>Security Alerts</h2>
-        <p>
-          A dedicated space for future account and security notifications.
-        </p>
-        <span class="status">Preview only</span>
-      </article>
-
-      <article class="card">
-        <div class="symbol">✉</div>
-        <h2>Email & SMS</h2>
-        <p>
-          Email and SMS delivery requires provider configuration.
-          Email connection testing is available above.
-        </p>
-        <span class="status">Integration in progress</span>
-      </article>
     </section>
   </main>
 
   <footer>
-    © 2026 NOVYX Flow<br>
-    Development Preview · Real payments disabled
+    NOVYX Flow · Demo interface · No real payment processing
   </footer>
 
   <script>
-    const notificationButton =
-      document.getElementById("notificationButton");
+    const orders = [];
+    let orderNumber = 1000;
 
-    const notificationPanel =
-      document.getElementById("notificationPanel");
+    const form = document.getElementById("orderForm");
+    const orderList = document.getElementById("orders");
 
-    const notificationList =
-      document.getElementById("notificationList");
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-    const notificationCount =
-      document.getElementById("notificationCount");
+      const customer =
+        document.getElementById("customer").value.trim();
+      const product =
+        document.getElementById("description").value.trim();
+      const amount =
+        Number(document.getElementById("price").value);
 
-    const refreshButton =
-      document.getElementById("refreshButton");
-
-    const emailTestButton =
-      document.getElementById("emailTestButton");
-
-    const emailTestResult =
-      document.getElementById("emailTestResult");
-
-    let notifications = [];
-
-    function escapeHTML(value) {
-      return String(value).replace(/[&<>"']/g, function (character) {
-        const entities = {
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;"
-        };
-
-        return entities[character];
-      });
-    }
-
-    function renderNotifications() {
-      notificationCount.textContent = notifications.length;
-
-      if (notifications.length === 0) {
-        notificationList.innerHTML =
-          '<p class="message">No notifications available.</p>';
+      if (!customer || !product ||
+          !Number.isFinite(amount) || amount < 1 ||
+          amount > 100000) {
+        alert("Please enter valid order details.");
         return;
       }
 
-      notificationList.innerHTML = notifications.map(function (item) {
-        return `
-          <article class="notification">
-            <h3>${escapeHTML(item.title)}</h3>
-            <p>${escapeHTML(item.message)}</p>
-            <span class="type">${escapeHTML(item.type)}</span>
-          </article>
-        `;
-      }).join("");
-    }
+      orders.unshift({
+        id: "NV-" + (++orderNumber),
+        customer: customer,
+        product: product,
+        amount: amount,
+        status: "Awaiting real payment integration"
+      });
 
-    async function loadNotifications() {
-      notificationList.innerHTML =
-        '<p class="message">Loading notifications…</p>';
-
-      try {
-        const response = await fetch("/api/notifications");
-
-        if (!response.ok) {
-          throw new Error("Notification API request failed.");
-        }
-
-        const data = await response.json();
-
-        if (data.ok !== true || !Array.isArray(data.notifications)) {
-          throw new Error("Invalid notification data.");
-        }
-
-        notifications = data.notifications;
-        renderNotifications();
-      } catch (error) {
-        notificationCount.textContent = "!";
-
-        notificationList.innerHTML =
-          '<p class="message">Could not load notifications. ' +
-          'Check your connection and tap Refresh.</p>';
-
-        console.error("Notification loading failed:", error);
-      }
-    }
-
-    notificationButton.addEventListener("click", function () {
-      const isOpen = notificationPanel.classList.toggle("open");
-
-      notificationButton.setAttribute(
-        "aria-expanded",
-        String(isOpen)
-      );
-
-      if (isOpen) {
-        loadNotifications();
-      }
+      renderOrders();
+      form.reset();
     });
 
-    refreshButton.addEventListener("click", loadNotifications);
+    function renderOrders() {
+      document.getElementById("count").textContent =
+        orders.length;
 
-    document.getElementById("exploreButton").addEventListener(
-      "click",
-      function () {
-        notificationPanel.classList.add("open");
+      // No demo order is counted as collected money.
+      document.getElementById("total").textContent =
+        "₹0.00";
 
-        notificationButton.setAttribute("aria-expanded", "true");
-
-        loadNotifications();
-
-        notificationPanel.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+      if (orders.length === 0) {
+        orderList.innerHTML =
+          '<p class="muted">No orders yet.</p>';
+        return;
       }
-    );
 
-    emailTestButton.addEventListener("click", async function () {
-      emailTestButton.disabled = true;
-      emailTestResult.textContent = "Testing email provider connection…";
+      orderList.replaceChildren();
 
-      try {
-        const response = await fetch("/api/send-email-otp", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({})
-        });
+      orders.forEach(function (order) {
+        const row = document.createElement("div");
+        row.className = "transaction";
 
-        const data = await response.json();
+        const details = document.createElement("div");
+        const title = document.createElement("strong");
+        title.textContent = order.customer;
 
-        if (response.ok && data.ok === true) {
-          emailTestResult.textContent =
-            "Success: " + data.message;
-        } else {
-          emailTestResult.textContent =
-            "Test failed: " +
-            (data.message || "Unknown error.") +
-            (data.providerStatus
-              ? " Provider status: " + data.providerStatus
-              : "");
-        }
-      } catch (error) {
-        emailTestResult.textContent =
-          "Could not reach the email API. Check your deployment.";
-      } finally {
-        emailTestButton.disabled = false;
-      }
-    });
+        const info = document.createElement("p");
+        info.className = "small";
+        info.textContent =
+          order.id + " · " + order.product;
+
+        const status = document.createElement("p");
+        status.className = "small";
+        status.textContent = order.status;
+
+        const amount = document.createElement("strong");
+        amount.textContent =
+          "₹" + order.amount.toFixed(2);
+
+        details.append(title, info, status);
+        row.append(details, amount);
+        orderList.appendChild(row);
+      });
+    }
+
+    document.getElementById("clearButton")
+      .addEventListener("click", function () {
+        orders.length = 0;
+        renderOrders();
+      });
   </script>
 </body>
 </html>
